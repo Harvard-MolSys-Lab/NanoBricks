@@ -1,0 +1,167 @@
+//- --------------------------------------------------------------------------
+//- NanoBricks
+//- 
+//- Copyright 2017 Molecular Systems Lab
+//- Wyss Institute for Biologically-Inspired Engineering
+//- Harvard University
+//- 
+//- Permission is hereby granted, free of charge, to any person obtaining a
+//- copy of this software and associated documentation files (the "Software"),
+//- to deal in the Software without restriction, including without limitation
+//- the rights to use, copy, modify, merge, publish, distribute, sublicense,
+//- and/or sell copies of the Software, and to permit persons to whom the
+//- Software is furnished to do so, subject to the following conditions:
+//- 
+//- The above copyright notice and this permission notice shall be included in
+//- all copies or substantial portions of the Software.
+//- 
+//- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+//- THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+//- FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+//- DEALINGS IN THE SOFTWARE.
+//- ------------------------------------------------------------------------- 
+
+.modal.nb-sequences-window 
+	//- (style="position: absolute; display: none; width: 80%; height: 80%;")
+	.modal-dialog.modal-lg
+		.modal-content
+			.modal-header 
+				button.close(type="button", data-dismiss="modal")
+					span(aria-hidden="true") &times;
+					span.sr-only Close
+				h4.modal-title
+					| Sequences
+			.modal-body
+
+				.alert.alert-warning(rv-show="canvas.ctrls.SST.strands.models | empty")
+					| You'll need to add some strands before you can generate sequences. <br />
+					| Make sure you've created strands from voxels using 'Voxels to Strands.'
+
+				.panel.panel-info
+					.panel-heading(data-toggle="collapse", data-target=".nb-sequence-generate")
+						| Generate Sequences
+					.nb-sequence-generate.panel-body.collapse(rv-class-in="canvas.ctrls.SST.strands.models | empty | not")
+						form(role="form").form-horizontal
+
+							.form-group
+								.col-sm-2
+									label Generate sequences...&nbsp;
+								.col-sm-10
+									select.form-control(rv-value="canvas.ctrls.Sequences:sset")
+										option(rv-each-sset="canvas.ctrls.Sequences.ssets", rv-attr-value="sset.cid", rv-html="sset:name")
+							.form-group
+								.col-sm-10.col-sm-offset-2(rv-html="canvas.ctrls.Sequences:active.description")
+
+							.form-group.no-rounded-corners.well
+								//- Random sequences
+								.form-group(rv-show-when-equals-random="canvas.ctrls.Sequences:active.ssType")
+									.col-sm-2.col-sm-offset-2
+										label Seed:
+									.col-sm-8
+										input.form-control(type="number", rv-value="canvas.ctrls.Sequences:active:seed", title="Seeds a pseudo-random number generator used to generate sequences for each voxel. If you use the same seed on the same sized lattice, you'll get the same sequences reproducibly.")
+								
+								//- Linear sequences
+								.form-group(rv-show-when-equals-linear="canvas.ctrls.Sequences:active.ssType")
+									.col-sm-2.col-sm-offset-2
+										label Sequence:
+									.col-sm-8
+										textarea.form-control(rv-value="canvas.ctrls.Sequences:active:string", title="Type, paste, or drop a text file containing a sequence here").nb-drop-text
+								.form-group(rv-show-when-equals-linear="canvas.ctrls.Sequences:active.ssType")
+									.col-sm-2.col-sm-offset-2
+										label Order:
+									.col-sm-8
+										.btn-group(data-toggle="buttons")
+											label.btn.btn-default.active(type="button", title="Sequences are read left to right, starting with the top row")
+												input(type="radio", name="nb-sequences-order", rv-checked="canvas.ctrls.Sequences:active:order", value="Horizontal", checked)
+												i.fa.fa-long-arrow-right
+												| &nbsp; Horizontal 
+											label.btn.btn-default(type="button", title="Sequences are read top to bottom, starting with the leftmost column")
+												input(type="radio", name="nb-sequences-order", rv-checked="canvas.ctrls.Sequences:active:order", value="Vertical")
+												i.fa.fa-long-arrow-down
+												| &nbsp; Vertical 
+											label.btn.btn-default(type="button", title="Sequences are read left to right for the first row, then right to left for the second, alternating direction each row (like caDNAno)")
+												input(type="radio", name="nb-sequences-order", rv-checked="canvas.ctrls.Sequences:active:order", value="Ribbon (caDNAno)")
+												i.fa.fa-exchange
+												| &nbsp; Ribbon
+								.form-group(rv-show-when-equals-linear="canvas.ctrls.Sequences:active.ssType")
+									.col-sm-10.col-sm-offset-2
+										label(title="Check to treat each line of input as the sequence for a separate helix; otherwise all lines will be concatenated together")
+											input(type="checkbox", rv-checked="canvas.ctrls.Sequences:active:lines")
+											| &nbsp; Split lines
+
+								//- Excel sequences
+								.form-group(rv-show-when-equals-excel="canvas.ctrls.Sequences:active.ssType")
+									.col-sm-2.col-sm-offset-2
+										label File:
+									.col-sm-8
+										a.btn.btn-success.btn-file(href="#", title="Upload a spreadsheet containing sequences for each of your strands. One column must contain a 2-number of 4-number list marking the location of the strand's 5' end")
+											span(rv-unless="sw.sequenceFileName") Upload Sequence file (.xlsx, .csv, .tsv)
+											span(rv-html="sw.sequenceFileName", rv-if="sw.sequenceFileName")
+											input.nb-sequences-excel-upload(type="file")
+								.form-group(rv-show-when-equals-excel="canvas.ctrls.Sequences:active.ssType")
+									.col-sm-2.col-sm-offset-2
+										label Header rows:
+									.col-sm-8
+										input.form-control(type="number", rv-value="canvas.ctrls.Sequences:active.headerRows", title="How many rows to ignore at the top of each sheet")
+
+								.form-group(rv-show-when-equals-excel="canvas.ctrls.Sequences:active.ssType")
+									.col-sm-2.col-sm-offset-2
+										label Sheet labels:
+									.col-sm-2
+										select.form-control(rv-value="canvas.ctrls.Sequences:active.sheetLabels.dest", title="Treat the sheet names as data about the strand (e.g. the plane name)")
+											option(rv-each-ct="sw.excelColumnTypes", rv-attr-value="ct.dest") {ct.dest}
+									.col-sm-6.breaking
+										span(rv-each-sheet="sw.previewSheets")
+											span.label.label-default {sheet} 
+											| &nbsp;
+										| ...
+
+								.form-group(rv-show-when-equals-excel="canvas.ctrls.Sequences:active.ssType")
+									.col-sm-2.col-sm-offset-2
+										label Columns:
+									.col-sm-8
+										table.table.fixed
+											thead: tr(title="Select how each column should be interpreted. One column must be set to 'routing' so the row can be matched to a strand. The routing must column contain either: a [helix number, base number] pair (if referring to a strand imported from caDNAno) or a [helix X, helix Y, voxel Z, base number] tuple (if referring to a strand built in NanoBricks) indicating the location of the 5' end of the strand.")
+												th(rv-each-column="canvas.ctrls.Sequences:active.columns")
+													label
+														| {column.col} &nbsp;
+													select.form-control.shrink(rv-value="column.dest")
+														option(rv-each-ct="sw.excelColumnTypes", rv-attr-value="ct.dest") {ct.dest}
+											tbody(title="Preview data imported from file. Only the first 10 rows of data will be shown")
+												tr(rv-each-row="sw.previewData")
+													td(rv-each-cell="row") {cell}
+												tr
+													td ...
+
+							//- submit button
+							.form-group(style="margin-bottom: none;")
+								.col-sm-10.col-sm-offset-2
+									.btn-toolbar
+										.btn-group
+											button.btn.btn-primary.nb-sequences-generate-thread(type="button", title="Generate a sequence for each voxel using the selected sequence set, then thread those sequences onto each strand in the system") 
+												| Generate &amp; Thread
+										
+										.btn-group.pull-right
+											button.btn.btn-info.nb-sequences-generate(type="button", title="Generate a sequence for each voxel in the lattice, using the selected sequence set.") 
+												| Generate
+											button.btn.btn-info.nb-sequences-thread(type="button", title="Assign a sequence to each strand by choosing the appropriate bases from the sequence of each voxel. Must call generate first.") 
+												| Thread
+
+										.btn-group.pull-right
+											button.btn.btn-default.nb-sequences-preview(type="button", title="Preview the sequence grid, showing the sequence assigned to each voxel")
+												| Preview
+
+
+							.alert.alert-danger(rv-if="sw.error")
+								strong Error: 
+								span(rv-html="sw.error")
+
+				.panel.panel-primary.panel-nopadding
+					.nb-sequences-table.panel-body
+
+			.modal-footer
+				button.btn.btn-success.nb-sequences-export Export to CSV
+				button.btn.btn-primary(data-dismiss="modal") Close

@@ -1,0 +1,100 @@
+//- --------------------------------------------------------------------------
+//- NanoBricks
+//- 
+//- Copyright 2017 Molecular Systems Lab
+//- Wyss Institute for Biologically-Inspired Engineering
+//- Harvard University
+//- 
+//- Permission is hereby granted, free of charge, to any person obtaining a
+//- copy of this software and associated documentation files (the "Software"),
+//- to deal in the Software without restriction, including without limitation
+//- the rights to use, copy, modify, merge, publish, distribute, sublicense,
+//- and/or sell copies of the Software, and to permit persons to whom the
+//- Software is furnished to do so, subject to the following conditions:
+//- 
+//- The above copyright notice and this permission notice shall be included in
+//- all copies or substantial portions of the Software.
+//- 
+//- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+//- THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+//- FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+//- DEALINGS IN THE SOFTWARE.
+//- ------------------------------------------------------------------------- 
+
+.panel-heading
+	div.container-fluid
+		.row
+			.col-md-2.panel-header-center.padding-sm
+				span(data-toggle="collapse", data-target=".nb-views-body") 
+					i.fa.fa-video-camera
+					| Views
+			//- Changed padding so Views label and buttons do not overlap
+			.col-md-6.padding-sm
+				.btn-group.btn-group-sm.pull-right.nb-camera(data-toggle="buttons")
+					label.btn.btn-default.btn-orthographic(type="button", title="Orthographic view")
+						input(type="radio", name="nb-camera-radio", rv-checked="cm:cameraMode", value="ortho")
+						| O
+					label.btn.btn-default.btn-perspective.active(type="button", title="Perspective view")
+						input(type="radio", name="nb-camera-radio", rv-checked="cm:cameraMode", value="perspective", checked)
+						| P
+					label.btn.btn-default.btn-anaglyph(title="Enable Anaglyph (red/cyan) effect")
+						input(type="radio", name="nb-camera-radio", rv-checked="cm:cameraMode", value="anaglyph")
+						| A
+			.col-md-5.padding-sm
+				table.pull-right
+					tr
+						td &nbsp;
+						td: a.btn.btn-default.btn-sm.nb-view-snap.btn-top(data-snap="back", title="Back view") B			
+						td &nbsp;
+					tr
+						td: a.btn.btn-default.btn-sm.nb-view-snap.btn-left(data-snap="left", title="Left view") L
+						td: a.btn.btn-default.btn-sm.nb-view-snap.btn-center(data-snap="top", title="Top view") T
+						td: a.btn.btn-default.btn-sm.nb-view-snap.btn-right(data-snap="right", title="Right view") R
+					tr
+						td &nbsp;
+						td: a.btn.btn-default.btn-sm.nb-view-snap.btn-bottom(data-snap="front", title="Front view") F
+						td &nbsp;
+
+.panel-body.nb-views-body.collapse.in
+
+	div.container-fluid
+		.row
+			.panel.panel-default
+				.panel-heading(style="overflow:hidden;").container-fluid
+					.row
+						.col-md-6
+							span.panel-header-center(data-toggle="collapse", data-target=".nb-views-slices") Slices  
+						.col-md-6
+							.btn-group.btn-group-sm.pull-right
+								button.btn.btn-default(rv-on-click="canvas.views.SST.refreshSlice", title="Apply slice"): i.fa.fa-check
+								button.btn.btn-default(rv-on-click="canvas.views.SST.resetSlice", title="Reset slices"): i.fa.fa-refresh
+				ul.list-group.nb-views-slices.collapse.in
+					li.range-group.list-group-item.container-fluid(data-slice-axis="0")
+						.row
+							.col-md-2
+								label(title="X slice"): i.fa.fa-arrows-h
+							.col-md-10
+								input(type="range" rv-value="canvas.views.SST.slice.axes.0.0", min="0", rv-attr-max="canvas.lattice.width")
+								input(type="range" rv-value="canvas.views.SST.slice.axes.0.1", min="0", rv-attr-max="canvas.lattice.width")
+
+					li.range-group.list-group-item.container-fluid(data-slice-axis="1")
+						.row
+							.col-md-2
+								label(title="Y slice"): i.fa.fa-arrows-v
+							.col-md-10
+								input(type="range" rv-value="canvas.views.SST.slice.axes.1.0", min="0", rv-attr-max="canvas.lattice.height")
+								input(type="range" rv-value="canvas.views.SST.slice.axes.1.1", min="0", rv-attr-max="canvas.lattice.height")
+
+					li.range-group.list-group-item.container-fluid(data-slice-axis="2")
+						.row
+							.col-md-2
+								label(title="Z (helix) slice"): i.fa.fa-arrows-h(style="transform:perspective(30px) rotateY(30deg) rotateZ(-30deg)")
+							.col-md-10
+								input(type="range" rv-value="canvas.views.SST.slice.axes.2.0", min="0", rv-attr-max="canvas.lattice.depth")
+								input(type="range" rv-value="canvas.views.SST.slice.axes.2.1", min="0", rv-attr-max="canvas.lattice.depth")
+
+				//- .panel-footer
+

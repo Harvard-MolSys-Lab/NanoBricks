@@ -1,0 +1,154 @@
+//- --------------------------------------------------------------------------
+//- NanoBricks
+//- 
+//- Copyright 2017 Molecular Systems Lab
+//- Wyss Institute for Biologically-Inspired Engineering
+//- Harvard University
+//- 
+//- Permission is hereby granted, free of charge, to any person obtaining a
+//- copy of this software and associated documentation files (the "Software"),
+//- to deal in the Software without restriction, including without limitation
+//- the rights to use, copy, modify, merge, publish, distribute, sublicense,
+//- and/or sell copies of the Software, and to permit persons to whom the
+//- Software is furnished to do so, subject to the following conditions:
+//- 
+//- The above copyright notice and this permission notice shall be included in
+//- all copies or substantial portions of the Software.
+//- 
+//- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+//- THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+//- FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+//- DEALINGS IN THE SOFTWARE.
+//- ------------------------------------------------------------------------- 
+
+div.nb-ui
+	
+	//- navigation bar
+	nav.navbar.navbar-default(role="navigation")
+		.container-fluid
+			.navbar-header
+				button.navbar-toggle(type="button",data-toggle="collapse",data-target="")
+
+					span.icon-bar
+					span.icon-bar
+					span.icon-bar
+
+				a.navbar-brand(href="#") 
+					i.fa.fa-cubes
+					| &nbsp; NanoBricks
+			.collapse.navbar-collapse
+				form.navbar-form.navbar-left
+					div.form-group
+						div.input-group
+							input(type="text", rv-value="ui.filename", title="Enter a name for your file; the .nbk extension will be added automatically when you save.").form-control.nb-filename
+							span.input-group-addon
+								| .
+								span(rv-text="ui.ext")
+				ul.nav.navbar-nav
+					li: a(title="Save design to .nbk file", href="#", rv-on-click="ui.saveNB") Save
+					li: a(title="Load design from .nbk file", href="#").btn-file.nb-open Open
+						input(type="file")
+
+					li: a(title="Import structure from .obj, .stl, .wrl, .pdb, or .json (caDNAno) file, or import sequences from .xlsx, .csv, .tsv, or .txt file", href="#").btn-file.nb-import Import
+						input(type="file", multiple)
+					
+					if true
+
+						li.dropdown
+							a.dropdown-toggle(title="Export strands/structure/image to a variety of file formats", href="#", data-toggle="dropdown") Export 
+								span.caret
+							ul.dropdown-menu(role="menu")
+								li: a(href="#", rv-on-click="ui.saveCaDNAno") strands to caDNAno
+								li: a(href="#", rv-on-click="ui.saveCanDo") strands to CanDo
+								li: a(href="#", rv-on-click="ui.saveCSV") sequences to CSV
+								li.divider
+								li: a(href="#", rv-on-click="ui.saveSVG") image to SVG (for figures)
+								li.divider
+								li: a(href="#", rv-on-click="ui.saveSTL") structure as STL (for 3D printing)
+								li: a(href="#", rv-on-click="ui.saveOBJ") structure as OBJ
+
+						li: a(href="#", rv-on-click="canvas.undo", title="Undo"): i.fa.fa-undo 
+						li: a(href="#", rv-on-click="canvas.redo", title="Redo"): i.fa.fa-repeat
+
+				ul.nav.navbar-nav.navbar-right
+					li: a(href="#").help Help
+					li: a(href="#").nb-plugins-link Plugins
+					li
+						p.navbar-text
+							span.text-danger
+								| Pre-release software. 
+							span 
+								| Version: 
+							span
+								span.text-danger(rv-html="ui.version.version")
+
+	//- toolbar and action panel
+	.panel.panel-default(style="position: absolute; left: 1%; top: 4.5em; width: 77%")
+		.panel-body
+			.btn-toolbar
+
+				//- tool selector
+				.btn-group.nb-tools(data-toggle="buttons")
+					label.btn.btn-default(type="button", rv-each-tool="canvas.toolsList", rv-show="tool.showInToolbar" rv-title="tool.name", rv-class-active="tool.active")
+						input(type="radio", name="nb-tools-radio", rv-checked="canvas:activeToolName", rv-attr-value="tool.toolType")
+						i.fa(rv-addclass="tool.iconCls")
+
+					//- label.btn.btn-default(type="button", title="Orbit")
+					//- 	input(type="radio", name="nb-tools-radio", rv-checked="canvas:activeToolName", value="Orbit")
+					//- 	i.fa.fa-refresh
+					//- label.btn.btn-default.active(type="button", title="Pointer")
+					//- 	input(type="radio", name="nb-tools-radio", rv-checked="canvas:activeToolName", value="Pointer", checked)
+					//- 	i.fa.fa-cube
+					//- label.btn.btn-default(type="button", title="Rectangle")
+					//- 	input(type="radio", name="nb-tools-radio", rv-checked="canvas:activeToolName", value="Rectangle") 
+					//- 	i.fa.fa-external-link
+					//- label.btn.btn-default(type="button", title="Draw Strand")
+					//- 	input(type="radio", name="nb-tools-radio", rv-checked="canvas:activeToolName", value="Strand") 
+					//- 	i.fa.fa-long-arrow-right
+					//- label.btn.btn-default(type="button", title="Erase Strand")
+					//- 	input(type="radio", name="nb-tools-radio", rv-checked="canvas:activeToolName", value="StrandEraser") 
+					//- 	i.fa.fa-eraser
+						//- span.fa-stack.fa-stack-small
+						//- 	i.fa.fa-long-arrow-right.fa-stack-1x
+						//- 	i.fa.fa-eraser.fa-stack-1x.fa-stack-br
+
+
+				.btn-group.nb-actions
+					button.btn.btn-default.nb-action-boxmaker(title="Add Voxels") 
+						i.fa.fa-fw.fa-cubes
+					button.btn.btn-default.nb-action-poweredit(title="Power Edit")
+						i.fa.fa-fw.fa-bolt
+
+				//- actions
+				.btn-group.nb-actions.nb-compiler
+
+				.btn-group.nb-actions
+					button.btn.btn-default(rv-on-click="ui.toggleSequences", title="Generate and edit sequences") Sequences
+
+				.btn-group.nb-actions.pull-right
+					button.btn.btn-default(rv-on-click="ui.toggleLattice", title="Change lattice shape or size") 
+						span.label.label-default(rv-html="canvas.lattice._name")
+						| &nbsp; Lattice
+
+
+	//- instructions/tool actions panel
+	.panel.panel-primary(style="position: absolute; left: 1%; top: 10em; width: 20%")
+		.panel-heading(rv-html="canvas:activeTool.name", data-toggle="collapse", data-target=".nb-tools-instructions")
+		.panel-body(rv-html="canvas:activeTool.instructions").nb-tools-instructions.collapse.in
+			| Instructions
+		.panel-footer(rv-html="canvas:activeTool:status")
+
+	//- views panel
+	.panel.panel-default(style="position: absolute; right: 1%; top: 4.5em; width: 20%").nb-views
+
+
+		//- views lists
+		ul.list-group
+			li.list-group-item(rv-each-view="canvas.views | toArray") 
+				label
+					input(type="checkbox", rv-checked="view:active", rv-disabled="view:available | not")
+					| &nbsp; {view.name}  
+				span.nb-views-description.pull-right(rv-html="view.description")

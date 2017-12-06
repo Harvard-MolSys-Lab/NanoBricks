@@ -1,0 +1,23 @@
+{
+  "name": "backbone-undo",
+  "version": "0.2.0",
+  "description": "An extremely simple undo manager for Backbone.js",
+  "main": "Backbone.Undo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/caseygrun/Backbone.Undo.js.git"
+  },
+  "keywords": [
+    "backbone",
+    "undo"
+  ],
+  "author": "Oliver Sartun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/caseygrun/Backbone.Undo.js/issues"
+  },
+  "homepage": "https://github.com/caseygrun/Backbone.Undo.js"
+}

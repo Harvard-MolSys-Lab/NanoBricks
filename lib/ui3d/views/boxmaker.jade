@@ -1,0 +1,90 @@
+//- --------------------------------------------------------------------------
+//- NanoBricks
+//- 
+//- Copyright 2017 Molecular Systems Lab
+//- Wyss Institute for Biologically-Inspired Engineering
+//- Harvard University
+//- 
+//- Permission is hereby granted, free of charge, to any person obtaining a
+//- copy of this software and associated documentation files (the "Software"),
+//- to deal in the Software without restriction, including without limitation
+//- the rights to use, copy, modify, merge, publish, distribute, sublicense,
+//- and/or sell copies of the Software, and to permit persons to whom the
+//- Software is furnished to do so, subject to the following conditions:
+//- 
+//- The above copyright notice and this permission notice shall be included in
+//- all copies or substantial portions of the Software.
+//- 
+//- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+//- THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+//- FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+//- DEALINGS IN THE SOFTWARE.
+//- ------------------------------------------------------------------------- 
+
+.nb-boxmaker.panel.panel-default.box-shadow(style="position:absolute; left: 1%; top: 10em; width: 30%; height:70%; overflow-y: hidden;")
+	.panel-heading.container-fluid
+		.row
+			.col-md-11.panel-header-center Add/Remove Voxels
+			.col-md-1.panel-header-center
+				button.close(data-dismiss="panel")
+					span(aria-hidden) &times;
+					span.sr-only Close
+	.panel-body(style="height:90%; overflow-y: auto;")
+		.alert.alert-info(role="alert")
+			button.close(type="button", data-dismiss="alert")
+				span(aria-hidden="true") &times;
+				span.sr-only Close
+
+			p
+				| Write an expression (in terms of <code>x</code>,
+				| <code>y</code>, and <code>z</code>) to add, remove, or set voxels.  
+				strong: a(data-toggle="collapse", data-target=".nb-boxmaker-examples", href="#") Examples
+			
+			.nb-boxmaker-examples.collapse
+				p
+					strong Simple shapes
+					pre: code.
+						cuboid 3, 3, 3, 5, 5, 5 
+				p
+					strong Custom function
+					pre: code.
+						(x, y, z) -> 1 < x < 5 and y % 2 is 0 and z ** 2 < 5
+				p
+					strong Image Processing
+					pre: code.
+						morph.dilate voxels.image()
+
+			ul.list-inline
+				li: strong Help:
+				li: a.help(href="scripting") Scripting
+				li: a.help(href="coffee-script") CoffeeScript
+				li: a.help(href="api/vox.shapes") Shapes
+				li: a.help(href="api/vox.morphology") Image Processing
+
+
+		form(style="height:90%;")
+			.form-group(style="height:90%;")
+				//- label Add/Remove Voxels &nbsp;
+				//- code (x, y, z) ->
+				textarea.form-control.nb-boxmaker-query(style="height:90%;")
+					| (x, y, z) ->
+					| 	
+				.panel-footer.functions
+					div.nb-boxmaker-functions
+						label(title="Pre-defined variables/functions (click for help)") Available:&nbsp;  
+						code: a.help(href="api/vox.compilers.Utils#has") has(x, y, z)
+						code: a.help(href="api/vox.compilers.Utils#enclosed") enclosed(x,y,z)
+						code: a.help(href="api/vox.lattice.Lattice") lattice
+						code: a.help(href="api/C3D.ctrls.SST") strands
+						code: a.help(href="api/C3D.ctrls.Voxels") voxels
+						code: a.help(href="api/vox.shapes") shapes
+						code: a.help(href="api/vox.morphology") morph
+						a.help(href="scripting") ?
+	.panel-footer.footer-sticky
+		.btn-group
+			button.btn.btn-success.nb-boxmaker-add Add
+			button.btn.btn-danger.nb-boxmaker-remove Remove
+			button.btn.btn-warning.nb-boxmaker-apply Apply

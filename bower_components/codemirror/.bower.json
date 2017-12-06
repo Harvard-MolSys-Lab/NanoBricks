@@ -1,0 +1,28 @@
+{
+  "name": "codemirror",
+  "main": [
+    "lib/codemirror.js",
+    "lib/codemirror.css"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components",
+    "bin",
+    "demo",
+    "doc",
+    "test",
+    "index.html",
+    "package.json"
+  ],
+  "homepage": "https://github.com/caseygrun/CodeMirror",
+  "_release": "1ddf976957",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "1ddf976957151f97881cc72e83b30a3468048f15"
+  },
+  "_source": "https://github.com/caseygrun/CodeMirror.git",
+  "_target": "master",
+  "_originalSource": "https://github.com/caseygrun/CodeMirror.git"
+}

@@ -1,0 +1,331 @@
+/*
+--------------------------------------------------------------------------
+NanoBricks
+
+Copyright 2017 Molecular Systems Lab
+Wyss Institute for Biologically-Inspired Engineering
+Harvard University
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+------------------------------------------------------------------------- 
+*/
+
+body 
+{
+	overflow: hidden;
+}
+
+.nb-container
+{
+	z-index: -1;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+.nb-ui 
+{
+	opacity: 0.9;
+}
+
+table.instructions td
+{
+	padding: 2px 3px;
+}
+
+table.instructions td.action
+{
+	padding-left: 5px;
+	margin-left: 5px;
+	border-left: solid 1px gray;
+}
+
+.instructions .fa
+{
+	display: inline;
+}
+
+table.fixed {
+    table-layout: fixed;
+}
+
+table.fixed td {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.backgrid tbody tr.empty td {
+    display: table-cell !important;
+}
+
+.nb-views-description {
+    opacity: 0.7;
+}
+
+.nb-views-sequence-key {
+    margin-left: 3px;
+}
+
+.form-control.shrink {
+    width:auto;
+    display:inline;
+}
+
+.menu-item {
+    padding: 3px 20px;
+}
+
+/* http://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3/ */
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 999px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+
+.no-rounded-corners {
+    border-radius: 0px !important;
+    -webkit-border-radius: 0px !important;
+}
+
+.no-side-borders {
+    border-left-style: none;
+    border-right-style: none;
+}
+
+hr.hr-close {
+    margin: 5px;
+}
+
+.box-shadow {
+    box-shadow: 0 1px 3px rgba(0,0,0,.25) !important;
+}
+
+.cm-s-default .cm-operator {
+    color: #708;
+}
+
+.corner-br {
+    border-width: 1px; 
+    border-color: silver;
+    border-style: none solid solid none;
+    border-radius: 0px 0px 5px 0px;
+    margin-right: 5px;
+    padding: 2px;
+}
+
+.panel-header-center {
+    padding: 7px 0px;
+}
+
+.panel-footer.functions {
+    padding: 5px 5px;
+}
+
+.panel-nopadding {
+    padding: 1px;
+}
+
+.breaking span {
+    display: inline-block;
+}
+
+.functions code {
+    display: inline-block;
+    margin-right: 5px;
+    margin-bottom: 3px;
+    padding: 1px 3px;
+    border: solid 1px lighten(#c7254e, 10%);
+}
+.functions code:hover {
+    background-color: #c7254e;
+    color: #fff;
+    cursor: arrow;
+}
+
+.routing-cell:hover {
+    overflow-x: scroll;
+}
+
+.fa-stack-tl {
+    position: relative;
+    bottom: 0.5em;
+    right: 0.5em;
+}
+.fa-stack-tr {
+    position: relative;
+    bottom: 0.5em;
+    left: 0.5em;
+}
+.fa-stack-bl {
+    position: relative;
+    top: 0.5em;
+    right: 0.5em;
+}
+.fa-stack-br {
+    position: relative;
+    top: 0.5em;
+    left: 0.5em;
+}
+
+.fa-rotate-45 {
+    transform: rotate(-45deg);
+}
+
+.padding-sm {
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+}
+
+[data-toggle="collapse"] {
+    cursor: pointer;
+}
+
+.popover {
+    max-width: none !important;
+}
+.nb-poweredit, .nb-boxmaker {
+    opacity: 0.9;
+}
+
+.menu-item {
+    padding: 3px 20px;
+}
+.menu-item .btn-group {
+    float: none !important;
+}
+
+.footer-sticky {
+    position: absolute; 
+    bottom: 0;
+    width: 100%;
+}
+
+table.key-arrows {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.key-arrows kbd {
+    font-size: 0.7em;
+}
+
+.key-arrows td {
+    padding: 0px 1px;
+}
+
+.btn-top {
+    border-radius: 4px 4px 0px 0px !important;
+    transform: perspective(50px) translate3d(0,0,-4px) rotateX(30deg)
+}
+.btn-left {
+    border-radius: 4px 0px 0px 4px !important;
+    transform: perspective(50px) translate3d(0,0,-4px) rotateY(-30deg)
+}
+.btn-center {
+    border-radius: 0px 0px 0px 0px !important;
+    width: 100%;
+}
+.btn-right {
+    border-radius: 0px 4px 4px 0px !important;
+    transform: perspective(50px) translate3d(0,0,-4px) rotateY(30deg)
+}
+.btn-bottom {
+    border-radius: 0px 0px 4px 4px !important;
+    transform: perspective(50px) translate3d(0,0,-4px) rotateX(-30deg)
+}
+
+.btn-top-left {
+    border-radius: 4px 0px 16px 0px !important;
+    transform: perspective(50px) translate3d(0,0,-4px);
+}
+.btn-top-right {
+    border-radius: 0px 4px 0px 16px !important;
+    transform: perspective(50px) translate3d(0,0,-4px);
+}
+.btn-bottom-left {
+    border-radius: 0px 4px 0px 16px !important;
+    transform: perspective(50px) translate3d(0,0,-4px);
+}
+.btn-bottom-right {
+    border-radius: 16px 0px 4px 0px !important;
+    transform: perspective(50px) translate3d(0,0,-4px);
+}
+
+.btn-perspective:hover {
+    transform:perspective(40px) rotateY(-20deg);
+}
+
+.btn-orthographic:hover {
+    transform:skewY(20deg);
+}
+
+.btn-anaglyph:hover {
+    color:rgba(255,0,0,0.7) !important;
+    text-shadow:rgba(0,255,255,0.7) 4px 0px;
+}
+
+.modal-xlg {
+    width: 90% !important;
+}
+
+// CodeMirror mode
+
+@brand-primary: #428bca;
+@brand-success: #5cb85c;
+@brand-info:    #5bc0de;
+@brand-warning: #f0ad4e;
+@brand-danger:  #d9534f;
+
+.cm-s-bootstrap span.cm-meta {color: darken(@brand-primary, 10%);}
+.cm-s-bootstrap span.cm-keyword { line-height: 1em; font-weight: bold; color: @brand-primary; }
+.cm-s-bootstrap span.cm-atom {color: #219;}
+.cm-s-bootstrap span.cm-number {color: #164;}
+.cm-s-bootstrap span.cm-def {color: @brand-danger; font-weight: bold;}
+.cm-s-bootstrap span.cm-variable {color: black;}
+.cm-s-bootstrap span.cm-variable-2 {color: #0000C0;}
+.cm-s-bootstrap span.cm-variable-3 {color: #0000C0;}
+.cm-s-bootstrap span.cm-property {color: black;}
+.cm-s-bootstrap span.cm-operator {color: @brand-success;}
+.cm-s-bootstrap span.cm-comment {color: @brand-warning;}
+.cm-s-bootstrap span.cm-string {color: darken(@brand-danger, 10%);}
+.cm-s-bootstrap span.cm-string-2 {color: darken(@brand-danger, 20%);}
+.cm-s-bootstrap span.cm-qualifier {color: #555;}
+.cm-s-bootstrap span.cm-builtin {color: #30a;}
+.cm-s-bootstrap span.cm-bracket {color: #cc7;}
+.cm-s-bootstrap span.cm-tag {color: #170;}
+.cm-s-bootstrap span.cm-attribute {color: #00c;}
+.cm-s-bootstrap span.cm-link {color: #219;}
+.cm-s-bootstrap span.cm-error {color: #f00;}
+
+.cm-s-bootstrap .CodeMirror-activeline-background {background: #e8f2ff !important;}
+.cm-s-bootstrap .CodeMirror-matchingbracket {outline:1px solid grey; color:black !important;}

@@ -1,0 +1,200 @@
+//- --------------------------------------------------------------------------
+//- NanoBricks
+//- 
+//- Copyright 2017 Molecular Systems Lab
+//- Wyss Institute for Biologically-Inspired Engineering
+//- Harvard University
+//- 
+//- Permission is hereby granted, free of charge, to any person obtaining a
+//- copy of this software and associated documentation files (the "Software"),
+//- to deal in the Software without restriction, including without limitation
+//- the rights to use, copy, modify, merge, publish, distribute, sublicense,
+//- and/or sell copies of the Software, and to permit persons to whom the
+//- Software is furnished to do so, subject to the following conditions:
+//- 
+//- The above copyright notice and this permission notice shall be included in
+//- all copies or substantial portions of the Software.
+//- 
+//- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+//- THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+//- FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+//- DEALINGS IN THE SOFTWARE.
+//- ------------------------------------------------------------------------- 
+
+mixin func(member)
+	.container-fluid
+		.row
+			.col-md-12
+				h5.list-group-item-heading 
+					| #{member.name}
+					| (
+					!= member.params.map(function(param) { if (param.optional) { return '<code>['+param.name+']</code>' } else { return '<code>'+param.name+'</code>' } }).join(', ') || ' '
+					| )
+					| -> 
+					if !!member['return']
+						code !{member.return.type}
+					else
+						code undefined
+					a(href="#"+member.id, id=member.id, name=member.name).pull-right #
+				| !{member.doc}
+
+
+		if member.params.length > 0 
+			.row 
+				.col-md-2
+					h6 Parameters
+				.col-md-10
+					dl.dl-horizontal
+						for param in member.params
+							dt
+								| #{param.name}
+							dd
+								code!=param.html_type
+								| !{param.doc}
+								if param.optional
+									| (Optional
+									if param['default']
+										| ; defaults to 
+										code!= param.default
+									| )
+
+		if member['return']
+			.row
+				.col-md-2
+					h6 Return
+				.col-md-10
+					dl.dl-horizontal
+						dt!= member['return'].name
+						dd
+							code!=member['return'].html_type
+							| !{member.return.doc}
+
+
+mixin obj(o)
+	span Object
+
+doctype html
+html
+	head
+		link(rel="stylesheet", type="text/css", href="../../../styles/build.css")
+		style(type="text/css").
+			body { overflow: scroll !important; }
+	body
+		.container-fluid
+			.row
+				.col-md-12
+					h1
+						| #{title} 
+						small
+							=name
+							if extend
+								small.pull-right
+									| &rarr; 
+									a(href="#!/api/"+extend) extend
+					!= doc
+
+			.row
+				.col-md-12
+					if members.cfg.length > 0
+						section
+							h3 Attributes
+							p: small
+								| Access attributes with 
+								code .get('<var>name</var>')
+								| and 
+								code .set('<var>name</var>', <var>value</var>)
+								| .
+
+							ul.list-group
+								for member in members.cfg
+									li.list-group-item
+										h5.list-group-item-heading 
+											| #{member.name} :  
+											code !{member.html_type }
+										| !{member.doc}
+
+					if members.property.length > 0
+						section
+							h3 Properties
+							p: small
+								| Access properties with 
+								code .<var>name</var>
+								| and 
+								code .<var>name</var> = <var>value</var>
+								| .
+
+							ul.list-group
+								for member in members.property
+									li.list-group-item
+										h5.list-group-item-heading 
+											| #{member.name} :  
+											code !{member.html_type }
+
+										| !{member.doc}
+
+					if members.method.length > 0
+						section
+							h3 Methods
+							p: small
+								| Call methods with
+								code .<var>name</var>()
+								| ,
+								code .<var>name</var>(<var>arguments</var>)
+								| or just 
+								code .<var>name</var> <var>arguments</var> 
+								| .
+
+							ul.list-group
+								for member in members.method
+									li.list-group-item(class=member.owner !== name ? "disabled" : undefined)
+										.container-fluid
+											.row
+												.col-md-12
+													h5.list-group-item-heading 
+														| #{member.name}
+														| (
+														!= member.params.map(function(param) { if (param.optional) { return '<code>['+param.name+']</code>' } else { return '<code>'+param.name+'</code>' } }).join(', ') || ' '
+														| )
+														| -> 
+														if !!member['return']
+															code !{member.return.type}
+														else
+															code undefined
+														a(href="#"+member.id, id=member.id, name=member.name).pull-right #
+														if member.owner !== name
+															a(href="#!/api/"+member.owner).pull-right
+																|  #{member.owner}  
+													| !{member.doc}
+
+											if member.params.length > 0 
+												.row 
+													.col-md-2
+														h6 Parameters
+													.col-md-10
+														dl.dl-horizontal
+															for param in member.params
+																dt
+																	| #{param.name}
+																dd
+																	code!=param.html_type
+																	| !{param.doc}
+																	if param.optional
+																		| (Optional
+																		if param['default']
+																			| ; defaults to 
+																			code!= param.default
+																		| )
+
+											if member['return']
+												.row
+													.col-md-2
+														h6 Return
+													.col-md-10
+														dl.dl-horizontal
+															dt!= member['return'].name
+															dd
+																code!=member['return'].html_type
+																| !{member.return.doc}

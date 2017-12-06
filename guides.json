@@ -1,0 +1,57 @@
+[
+	{
+		"title": "NanoBricks Guides",
+		"items": [
+			{
+				"name": "architecture",
+				"title": "NanoBricks Architecture",
+				"description": "This guide explains how the NanoBricks code is arranged."
+			},
+			{
+				"name": "data",
+				"title": "NanoBricks Data Model",
+				"description": "This guide explains how data is stored in NanoBricks."
+			},
+			{
+				"name": "style",
+				"title": "NanoBricks Style Guide",
+				"description": "This guide explains how NanoBricks code should be styled."
+			},
+			{
+				"name": "tools",
+				"title": "Tool Development",
+				"description": "This guide explains how to develop new user tools for NanoBricks."
+			},
+			{
+				"name": "strands",
+				"title": "NanoBricks Strands",
+				"description": "This guide explains how strands are modeled in NanoBricks and compares this model to caDNAno."
+			},
+			{
+				"name": "mousekey",
+				"title": "Mouse and Keyboard Handling",
+				"description": "This guide explains how to handle mouse and keyboard input in NanoBricks."
+			},
+			{
+				"name": "raycasting",
+				"title": "Raycasting and object picking",
+				"description": "This guide explains how detect objects picked with the mouse."
+			},
+			{
+				"name": "plugins",
+				"title": "Plugin Development",
+				"description": "This guide explains how write plugins for NanoBricks."
+			},
+			{
+				"name": "files",
+				"title": "NanoBricks Files",
+				"description": "This guide explains how NanoBricks saves and loads file, and describes the .nbk file format."
+			},
+			{
+				"name": "rendering",
+				"title": "Efficient rendering",
+				"description": "This guide explains how NanoBricks renders hundreds of thousands of voxels and strands using JavaScript and WebGL."
+			}
+		]
+	}
+]

@@ -1,0 +1,4 @@
+{
+	"name":"vox",
+	"main":"./vox.coffee"
+}

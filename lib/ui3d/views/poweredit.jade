@@ -1,0 +1,139 @@
+//- --------------------------------------------------------------------------
+//- NanoBricks
+//- 
+//- Copyright 2017 Molecular Systems Lab
+//- Wyss Institute for Biologically-Inspired Engineering
+//- Harvard University
+//- 
+//- Permission is hereby granted, free of charge, to any person obtaining a
+//- copy of this software and associated documentation files (the "Software"),
+//- to deal in the Software without restriction, including without limitation
+//- the rights to use, copy, modify, merge, publish, distribute, sublicense,
+//- and/or sell copies of the Software, and to permit persons to whom the
+//- Software is furnished to do so, subject to the following conditions:
+//- 
+//- The above copyright notice and this permission notice shall be included in
+//- all copies or substantial portions of the Software.
+//- 
+//- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+//- THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+//- FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+//- DEALINGS IN THE SOFTWARE.
+//- ------------------------------------------------------------------------- 
+
+.nb-poweredit.panel.panel-default.box-shadow(style="position:absolute; right: 2%; top: 10em; width: 50%; height:70%; overflow-y: auto;")
+	.panel-heading.container-fluid
+		.row
+			.col-md-7.panel-header-center Power Edit
+			.col-md-4
+				select.nb-poweredit-ctrl.form-control.pull-right(rv-value="pe:target")
+					option(value="Voxels") Voxels
+					option(value="Strands") Strands
+			.col-md-1.panel-header-center
+				button.close(data-dismiss="panel")
+					span(aria-hidden) &times;
+					span.sr-only Close
+	.panel-body
+		.alert.alert-info.alert-dismissible(role="alert")
+			button.close(type="button", data-dismiss="alert")
+				span(aria-hidden="true") &times;
+				span.sr-only Close
+
+			
+
+			p
+				| <strong>Select</strong>: write expression to choose which voxels/strands to transform. 
+				| <strong>Transform</strong>: expression to modify selected strands. 
+				| Functions below each box are built-in. Use the 
+				| dropdown to switch between Voxels and Strands.  
+				strong: a(data-toggle="collapse", data-target=".nb-poweredit-examples", href="#") Examples
+			
+			.nb-poweredit-examples.collapse
+				p
+					strong: a.help(href="api/C3D.models.Voxel") Color simple shapes (Voxels)
+					ul
+						li
+							| Select
+							pre: code.
+								cuboid 3, 3, 3, 5, 5, 5 
+						li
+							| Transform
+							pre: code.
+								(x, y, z, voxel) -> voxel.set 'color', 'orange'
+				p
+					strong: a.help(href="api/C3D.models.SST") Extend all X strands (Strands)
+					ul
+						li
+							| Select
+							pre: code.
+								(strand) -> strand.get('plane') is 'X'
+						li
+							| Transform
+							pre: code.
+								(strand) -> strand.extend('TTTTTT')
+
+			ul.list-inline
+				li: strong Help:
+				li: a.help(href="scripting") Scripting
+				li: a.help(href="coffee-script") CoffeeScript
+				li: a.help(href="api/C3D.ctrls.Voxels") Voxels
+				li: a.help(href="api/C3D.ctrls.SST") Strands
+
+
+			
+			
+		form
+			//- .form-group
+			.form-group
+				label Select &nbsp;
+				textarea.form-control.nb-poweredit-select(style="max-height:5em;")
+				.alert.alert-danger(rv-show="pe:select-error")
+					strong Error
+					pre(rv-text="pe:select-error")
+				.panel-footer
+					div.functions.nb-poweredit-select-functions(rv-show-when-equals-Voxels="pe:target")
+						label(title="Pre-defined variables/functions (click for help)") Available:&nbsp;  
+						code: a.help(href="api/vox.compilers.Utils#has") has(x, y, z)
+						code: a.help(href="api/vox.compilers.Utils#enclosed") enclosed(x,y,z)
+						code: a.help(href="api/vox.lattice.Lattice") lattice
+						code: a.help(href="api/C3D.ctrls.SST") strands
+						code: a.help(href="api/C3D.ctrls.Voxels") voxels
+					div.functions.nb-poweredit-select-functions(rv-show-when-equals-Strands="pe:target")
+						label(title="Pre-defined variables/functions (click for help)") Available:&nbsp;  
+						code: a.help(href="api/C3D.models.SST#plane") strand.get('plane')
+						code: a.help(href="api/C3D.models.SST#dir") strand.get('dir')
+						code: a.help(href="api/C3D.models.SST#get5p") strand.get5p()
+						code: a.help(href="api/C3D.models.SST#get3p") strand.get3p()
+						code: a.help(href="api/C3D.models.SST#routing") strand.get('routing')
+						code: a.help(href="api/vox.lattice.Lattice") lattice
+						code: a.help(href="api/C3D.ctrls.SST") strands
+						code: a.help(href="api/C3D.ctrls.Voxels") voxels
+
+			.form-group
+				label Transform &nbsp;
+				textarea.form-control.nb-poweredit-transform(style="max-height:5em;")
+				.alert.alert-danger(rv-show="pe:transform-error")
+					strong Error
+					pre(rv-text="pe:transform-error")
+				.panel-footer
+					div.functions.nb-poweredit-voxel-functions(rv-show-when-equals-Voxels="pe:target")
+						label(title="Pre-defined variables/functions (click for help)") Available:&nbsp;  
+						code: a.help(href="api/C3D.models.Voxel#move") voxel.move <var>dx</var>, <var>dy</var>, <var>dz</var>
+						code: a.help(href="api/C3D.models.Voxel#moveTo") voxel.moveTo <var>x</var>, <var>y</var>, <var>z</var>
+						code: a.help(href="api/C3D.models.Voxel#color") voxel.set 'color', <var>color</var>
+					div.functions.nb-poweredit-strand-functions(rv-show-when-equals-Strands="pe:target")
+						label(title="Pre-defined variables/functions (click for help)") Available:&nbsp;  
+						code: a.help(href="api/C3D.models.SST#insert") strand.insert <var>index</var>, <var>sequence/length</var>
+						code: a.help(href="api/C3D.models.SST#remove") strand.remove <var>index</var>, <var>length</var>
+						code: a.help(href="api/C3D.models.SST#extrand") strand.extend <var>sequence/length</var>
+						code: a.help(href="api/C3D.models.SST#truncate") strand.truncate <var>direction</var>, <var>length</var>
+						code: a.help(href="api/C3D.models.SST#move") strand.move <var>dx</var>, <var>dy</var>, <var>dz</var>, <var>db</var>
+						code: a.help(href="api/C3D.ctrls.SST#ligate") strands.ligate(<var>s1</var>,<var>s2</var>)
+						code: a.help(href="api/C3D.ctrls.SST#cut") strands.cut(<var>strand</var>,<var>position</var>)
+
+
+	.panel-footer
+		button.nb-poweredit-apply.btn.btn-primary Execute

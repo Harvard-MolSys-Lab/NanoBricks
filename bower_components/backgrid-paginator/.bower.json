@@ -1,0 +1,34 @@
+{
+  "name": "backgrid-paginator",
+  "main": [
+    "backgrid-paginator.js",
+    "backgrid-paginator.css"
+  ],
+  "description": "Backgrid.js extension for pagination.",
+  "homepage": "https://github.com/wyuenho/backgrid-paginator",
+  "authors": [
+    "Jimmy Yuen Ho Wong <wyuenho@gmail.com>"
+  ],
+  "keywords": [
+    "backbone",
+    "backgrid"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {},
+  "_release": "4f8ec03f81",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "4f8ec03f813ebac447c5fd7dec679cd7fc01dfab"
+  },
+  "_source": "https://github.com/caseygrun/backgrid-paginator.git",
+  "_target": "master",
+  "_originalSource": "https://github.com/caseygrun/backgrid-paginator.git"
+}

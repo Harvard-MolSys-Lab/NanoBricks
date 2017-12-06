@@ -1,0 +1,15 @@
+B
+C
+.vagrant/
+.DS_Store
+.tmp/
+scratch/
+docs/
+docs/*
+etc/
+etc/*
+node_modules/.bin/*
+node_modules/**/.bin/*
+bower_components/jquery/*
+bower_components/backbone/*
+dist/*

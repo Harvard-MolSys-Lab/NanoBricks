@@ -1,0 +1,81 @@
+//- --------------------------------------------------------------------------
+//- NanoBricks
+//- 
+//- Copyright 2017 Molecular Systems Lab
+//- Wyss Institute for Biologically-Inspired Engineering
+//- Harvard University
+//- 
+//- Permission is hereby granted, free of charge, to any person obtaining a
+//- copy of this software and associated documentation files (the "Software"),
+//- to deal in the Software without restriction, including without limitation
+//- the rights to use, copy, modify, merge, publish, distribute, sublicense,
+//- and/or sell copies of the Software, and to permit persons to whom the
+//- Software is furnished to do so, subject to the following conditions:
+//- 
+//- The above copyright notice and this permission notice shall be included in
+//- all copies or substantial portions of the Software.
+//- 
+//- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+//- THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+//- FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+//- DEALINGS IN THE SOFTWARE.
+//- ------------------------------------------------------------------------- 
+
+.modal.nb-sequences-window 
+	//- (style="position: absolute; display: none; width: 80%; height: 80%;")
+	.modal-dialog.modal-lg
+		.modal-content
+			.modal-header 
+				button.close(type="button", data-dismiss="modal")
+					span(aria-hidden="true") &times;
+					span.sr-only Close
+				h4.modal-title
+					| Plugins
+			.modal-body
+				.alert.alert-info
+					p.
+						Plugins provide additional functionality (such as 
+						additional tools, lattices, or translation schemes) to 
+						NanoBricks. To add a plugin, enter a URL to a JavaScript
+						file in the text box below. You'll need to refresh the 
+						page to load new plugins (make sure to save your work!)
+						If you are having trouble with a plugin, you can 
+						<a href="#" class="nb-plugins-enter-safe-mode">enter safe mode</a>.
+
+					p.text-danger.
+						Plugins will have access to <b>any data you enter into
+						NanoBricks</b>, and will load every time you open 
+						NanoBricks; only add plugins from websites that you trust!
+
+				.alert.alert-warning(rv-show="pm.plugins.safe")
+					p.
+						NanoBricks is in Safe Mode; no plugins will be loaded 
+						until you <a href="#" class="nb-plugins-leave-safe-mode">leave safe mode</a>.
+
+				.panel.panel-primary.panel-nopadding
+					.nb-plugins-table.panel-body
+
+				.panel.panel-success
+					.panel-heading
+						| Add Plugin
+					.panel-body
+						form(role="form").form-horizontal
+
+							.form-group
+								.col-sm-2
+									label Plugin URL&nbsp;
+
+								.col-sm-8
+									input.nb-plugins-url(type="text", placeholder="http://").form-control
+
+								.col-sm-2
+									button.nb-plugins-add.btn.btn-success(type="button") Add
+
+			.modal-footer
+				button.btn.btn-warning(rv-show="pm.plugins.dirty").nb-refresh-button
+					i.fa.fa-refresh
+					|  Refresh the page to apply changes
+				button.btn.btn-primary(data-dismiss="modal") Close

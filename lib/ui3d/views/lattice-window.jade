@@ -1,0 +1,84 @@
+//- --------------------------------------------------------------------------
+//- NanoBricks
+//- 
+//- Copyright 2017 Molecular Systems Lab
+//- Wyss Institute for Biologically-Inspired Engineering
+//- Harvard University
+//- 
+//- Permission is hereby granted, free of charge, to any person obtaining a
+//- copy of this software and associated documentation files (the "Software"),
+//- to deal in the Software without restriction, including without limitation
+//- the rights to use, copy, modify, merge, publish, distribute, sublicense,
+//- and/or sell copies of the Software, and to permit persons to whom the
+//- Software is furnished to do so, subject to the following conditions:
+//- 
+//- The above copyright notice and this permission notice shall be included in
+//- all copies or substantial portions of the Software.
+//- 
+//- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+//- THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+//- FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+//- DEALINGS IN THE SOFTWARE.
+//- ------------------------------------------------------------------------- 
+
+.modal.nb-lattice-window
+	.modal-dialog.modal-lg
+		.modal-content
+			.modal-header 
+				button.close(type="button", data-dismiss="modal")
+					span(aria-hidden="true") &times;
+					span.sr-only Close
+				h4.modal-title
+					| Change lattice
+			.modal-body
+				.alert.alert-danger
+					strong Warning! 
+					| Changing the lattice will remove all added strands and voxels from the canvas. Any custom translation schemes you have written will also be lost. 
+					strong This cannot be undone!
+
+				form.form-horizontal(role="form")
+					.form-group
+						label.col-sm-2
+							| Lattice
+
+						.col-sm-10
+							select.nb-lattice-select.form-control(rv-value="lw.lattice")
+								option(rv-each-lattice="canvas.ctrls.SST.getLattices < :lattice", rv-attr-value="lattice._class", rv-text="lattice._name")
+
+					.form-group
+						.col-sm-10.col-sm-offset-2
+							.alert.well-sm(rv-class-alert-warning="lw.latticeIsExperimental < lattice")
+								p(rv-html="lw.latticeDescription < lattice")
+								p(rv-show="lw.latticeIsExperimental < lattice")
+									strong Note:  
+									| This experimental lattice has not been verified in the laboratory, may not have valid translation schemes, and may not be usable.
+
+					.form-group.no-rounded-corners.well
+						label.col-sm-2.col-sm-offset-2
+							| Dimensions
+
+						.col-sm-2
+							input(type="number", rv-attr-placeholder="lw.latticeWidth < lattice").form-control.nb-width
+
+						.col-sm-2
+							input(type="number", rv-attr-placeholder="lw.latticeHeight < lattice").form-control.nb-height
+
+						.col-sm-2
+							input(type="number", rv-attr-placeholder="lw.latticeDepth < lattice").form-control.nb-depth
+
+
+					//- .form-group
+					//- 	label.col-sm-2
+					//- 		| Available Translation Schemes
+
+					//- 	.col-sm-10
+					//- 		ul.list-inline
+					//- 			li(rv-each-ts="lw.getCompatibleTranslationSchemes < lattice")
+					//- 		//- select.form-control(rv-value="lw.translationScheme")
+					//- 		//- 	option(rv-each-ts="lw.getCompatibleTranslationSchemes < lattice")
+
+			.modal-footer
+				button.btn.btn-danger(rv-on-click="lw.changeLattice") Change lattice
